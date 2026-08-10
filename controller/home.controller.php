@@ -1,5 +1,5 @@
 <?php
-require_once "model/ciudad.php";
+require_once "model/Ciudad.php";
 class HomeController{
     private $modelo;
 

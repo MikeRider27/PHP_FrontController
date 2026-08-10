@@ -10,6 +10,7 @@
  * 
  * @author Miguel Villalba <mike.mavc27@gmail.com>
  */
+$usuario_sesion = $_SESSION['usuario'] ?? null;
 ?>
 <html>
     <head>
@@ -57,7 +58,7 @@
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <img src="assets/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                                    <span class="hidden-xs">Miguel Villalba</span>
+                                    <span class="hidden-xs"><?=htmlspecialchars($usuario_sesion['nombre_completo'] ?? '')?></span>
                                 </a>
                                 <ul class="dropdown-menu">
 
@@ -65,8 +66,8 @@
                                     <li class="user-header">
                                         <img src="assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                                         <p>
-                                            Miguel Villalba		
-                                            <small>Usuario</small>
+                                            <?=htmlspecialchars($usuario_sesion['nombre_completo'] ?? '')?>
+                                            <small><?=htmlspecialchars($usuario_sesion['rol_descripcion'] ?? 'Usuario')?></small>
                                         </p>
                                     </li>
 
@@ -76,7 +77,7 @@
 
                                         </div>
                                         <div class="pull-right">
-                                            <a href="../views/login.php" class="btn btn-danger btn-flat"><i class="fa fa-power-off"></i> Salir</a>
+                                            <a href="?c=login&a=Salir" class="btn btn-danger btn-flat"><i class="fa fa-power-off"></i> Salir</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -95,7 +96,7 @@
                             <img src="assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p>Miguel Villalba</p>
+                            <p><?=htmlspecialchars($usuario_sesion['nombre_completo'] ?? '')?></p>
                             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                         </div>
                     </div>
