@@ -105,3 +105,13 @@ Usuario de prueba (creado por `schema.sql`):
   Productos más Movidos. Cada reporte tiene un botón "Imprimir / PDF" que abre
   el diálogo de impresión del navegador con una vista limpia (sin menú ni
   botones) — desde ahí se puede guardar como PDF.
+
+## 👨‍💻 Autor
+
+Miguel Villalba
+Desarrollador Full Stack
+✉️ mike.mavc27@gmail.com
+
+## 📄 Licencia
+
+Este proyecto está bajo la licencia MIT.
