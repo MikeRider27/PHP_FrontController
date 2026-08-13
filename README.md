@@ -15,6 +15,7 @@ enruta cada pedido a un controlador según `?c=` (controlador) y `?a=` (acción)
 
 ```
 docker-compose.yaml       Levanta el contenedor "controller" (Apache + PHP)
+.env.example                Variables de entorno requeridas (copiar a .env)
 docker_files/              Dockerfile de la imagen PHP
 bd/
   schema.sql                Esquema completo, para una base nueva/vacía
@@ -38,19 +39,25 @@ docker compose up -d --build
 
 La app queda en `http://localhost:7040`. El contenedor `controller` se conecta
 a un PostgreSQL **externo** (no lo levanta docker-compose); la conexión se
-configura por variables de entorno en `docker-compose.yaml`:
+configura por variables de entorno, tomadas de un archivo `.env` (no
+versionado) en la raíz del proyecto:
 
-```yaml
-environment:
-  - DB_HOST=192.168.11.220
-  - DB_PORT=5436
-  - DB_NAME=inventario
-  - DB_USER=postgres
-  - DB_PASSWORD=123
+```bash
+cp .env.example .env
+# editar .env con los datos reales del servidor Postgres
 ```
 
-(`src/app/Core/Database.php` lee estas variables; si no están definidas usa
-esos mismos valores como default.)
+```
+DB_HOST=192.168.11.220
+DB_PORT=5436
+DB_NAME=inventario
+DB_USER=postgres
+DB_PASSWORD=<clave>
+```
+
+`docker-compose.yaml` inyecta estas variables al contenedor (`${DB_HOST}`,
+etc.) y `src/app/Core/Database.php` las lee con `getenv()`; si falta alguna,
+la conexión falla explícitamente en vez de usar un valor por defecto.
 
 ## Base de datos
 
