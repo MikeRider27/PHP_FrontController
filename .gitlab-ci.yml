@@ -1,0 +1,28 @@
+stages:
+  - deploy
+
+deploy_sys_agenda_develop:
+  stage: deploy
+  tags:
+    - develop
+  only:
+    - develop
+  script:
+    - echo "🚀 Desplegando sys_agenda desde DEVELOP"
+    - cd /root/sys_agenda
+    - git reset --hard HEAD
+    - git pull origin develop
+    - echo "✅ Deploy DEVELOP completo"
+
+deploy_sys_agenda_master:
+  stage: deploy
+  tags:
+    - develop  # mismo runner
+  only:
+    - master
+  script:
+    - echo "🚀 Desplegando sys_agenda desde MASTER"
+    - cd /root/sys_agenda
+    - git reset --hard HEAD
+    - git pull origin master
+    - echo "✅ Deploy MASTER completo"

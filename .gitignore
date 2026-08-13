@@ -1,0 +1,15 @@
+# Ignorar archivos específicos
+apache/log/access.log
+apache/log/error.log
+
+# Ignoramos una carpeta
+src/public/dist/img/avatares/
+
+# O ignorar todos los archivos en el directorio apache/log/
+# apache/log/*
+
+# Ignoramos la carperta vscode
+.vscode/
+build/
+nginx/logs/
+.claude/

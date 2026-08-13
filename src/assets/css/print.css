@@ -1,0 +1,28 @@
+/* Vista de impresión: deja visible solo el contenido del reporte. */
+@media print {
+    .main-header,
+    .main-sidebar,
+    .content-header .breadcrumb,
+    .no-print {
+        display: none !important;
+    }
+
+    .content-wrapper,
+    .right-side {
+        margin-left: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    .wrapper {
+        min-height: 0 !important;
+    }
+
+    .box {
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    body {
+        background: #fff !important;
+    }
+}

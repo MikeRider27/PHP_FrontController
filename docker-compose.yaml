@@ -1,0 +1,45 @@
+services:
+  controller:
+    build:
+      context: ./
+      dockerfile: docker_files/Dockerfile-php
+    container_name: controller
+    restart: always
+    volumes:
+      - ./src:/var/www/html/
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+      - ./apache/log:/var/log/apache2/
+      - ./apache/apache2.conf:/etc/apache2/apache2.conf
+      - ./apache/mods-available/mpm_prefork.conf:/etc/apache2/mods-available/mpm_prefork.conf
+    environment:
+      - DB_HOST=192.168.11.220
+      - DB_PORT=5436
+      - DB_NAME=inventario
+      - DB_USER=postgres
+      - DB_PASSWORD=123
+    ports:
+      - 7040:80
+    networks:
+      - app
+
+#  nginx:
+#    container_name: nginx
+#    image: nginx:1.17.9-alpine 
+#    restart: always
+#    depends_on:
+#      - agenda
+#    volumes:
+#      - ./mspbs_certs:/etc/nginx/ssl/dgtic/*.mspbs.gov.py
+#      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+#      - ./nginx/log:/var/log/nginx
+#    ports:
+#      - 80:80
+#      - 443:443   
+#    networks:
+#      - app
+
+
+
+networks:
+  app:
+    driver: bridge
