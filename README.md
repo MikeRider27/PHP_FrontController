@@ -48,10 +48,10 @@ cp .env.example .env
 ```
 
 ```
-DB_HOST=192.168.11.220
-DB_PORT=5436
+DB_HOST=<host del servidor Postgres>
+DB_PORT=<puerto>
 DB_NAME=inventario
-DB_USER=postgres
+DB_USER=<usuario>
 DB_PASSWORD=<clave>
 ```
 
