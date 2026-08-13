@@ -13,3 +13,4 @@ src/public/dist/img/avatares/
 build/
 nginx/logs/
 .claude/
+.env
