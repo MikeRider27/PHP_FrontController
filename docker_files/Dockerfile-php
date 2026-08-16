@@ -1,8 +1,12 @@
 FROM php:8.0-apache
 
+# Binario de Composer (el codigo de la app vive en el volumen ./src, no se copia a la
+# imagen; el binario se usa en el entrypoint para instalar dependencias como dompdf).
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 # Instalar dependencias y limpiar caché
 RUN apt-get update \
-    && apt-get install -y libpq-dev libpng-dev libjpeg62-turbo-dev libyaml-dev tzdata \
+    && apt-get install -y libpq-dev libpng-dev libjpeg62-turbo-dev libyaml-dev libonig-dev tzdata unzip \
     && ln -snf /usr/share/zoneinfo/America/Asuncion /etc/localtime \
     && echo "America/Asuncion" > /etc/timezone \
     && pecl install yaml \
@@ -11,8 +15,10 @@ RUN apt-get update \
     && apt-get autoremove -y
 
 # Configurar y habilitar extensiones de PHP
+# mbstring es requerida por dompdf (generacion de PDF de los reportes); dom/xml ya
+# vienen compiladas en la imagen base.
 RUN docker-php-ext-configure gd \
-    && docker-php-ext-install pgsql pdo_pgsql gd \
+    && docker-php-ext-install pgsql pdo_pgsql gd mbstring \
     && docker-php-ext-enable yaml
 
 # Configurar tamaño máximo de archivo para subidas
@@ -24,3 +30,10 @@ RUN echo "date.timezone=America/Asuncion" > /usr/local/etc/php/conf.d/timezone.i
 # Habilitar el módulo rewrite de Apache y reiniciar
 RUN a2enmod rewrite \
     && service apache2 restart
+
+# Entrypoint propio: instala dependencias de Composer (dompdf) contra el volumen
+# ./src la primera vez, y despues arranca Apache normalmente.
+COPY docker_files/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["apache2-foreground"]

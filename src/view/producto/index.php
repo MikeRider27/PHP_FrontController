@@ -52,8 +52,8 @@
                                     <td><?=htmlspecialchars($p['producto_nombre'])?></td>
                                     <td><?=htmlspecialchars($p['categoria_nombre'])?></td>
                                     <td><?=htmlspecialchars($p['proveedor_razon_social'] ?? '-')?></td>
-                                    <td class="text-right"><?=number_format((float)$p['producto_precio_costo'], 2)?></td>
-                                    <td class="text-right"><?=number_format((float)$p['producto_precio_venta'], 2)?></td>
+                                    <td class="text-right"><?=number_format((float)$p['producto_precio_costo'], 0, ',', '.')?></td>
+                                    <td class="text-right"><?=number_format((float)$p['producto_precio_venta'], 0, ',', '.')?></td>
                                     <td class="text-center">
                                         <span class="label <?=$p['producto_stock_actual'] <= $p['producto_stock_minimo'] ? 'label-danger' : 'label-success'?>">
                                             <?=$p['producto_stock_actual']?>

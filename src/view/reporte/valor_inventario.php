@@ -17,7 +17,7 @@
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3><?=number_format($totalCosto, 2)?></h3>
+                        <h3><?=number_format($totalCosto, 0, ',', '.')?></h3>
                         <p>Valor total a costo</p>
                     </div>
                     <div class="icon"><i class="fa fa-cubes"></i></div>
@@ -26,7 +26,7 @@
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3><?=number_format($totalVenta, 2)?></h3>
+                        <h3><?=number_format($totalVenta, 0, ',', '.')?></h3>
                         <p>Valor total a venta</p>
                     </div>
                     <div class="icon"><i class="fa fa-money"></i></div>
@@ -56,10 +56,10 @@
                                     <td><?=htmlspecialchars($p['producto_nombre'])?></td>
                                     <td><?=htmlspecialchars($p['categoria_nombre'])?></td>
                                     <td class="text-center"><?=$p['producto_stock_actual']?></td>
-                                    <td class="text-right"><?=number_format((float)$p['producto_precio_costo'], 2)?></td>
-                                    <td class="text-right"><?=number_format((float)$p['producto_precio_venta'], 2)?></td>
-                                    <td class="text-right"><?=number_format((float)$p['valor_costo'], 2)?></td>
-                                    <td class="text-right"><?=number_format((float)$p['valor_venta'], 2)?></td>
+                                    <td class="text-right"><?=number_format((float)$p['producto_precio_costo'], 0, ',', '.')?></td>
+                                    <td class="text-right"><?=number_format((float)$p['producto_precio_venta'], 0, ',', '.')?></td>
+                                    <td class="text-right"><?=number_format((float)$p['valor_costo'], 0, ',', '.')?></td>
+                                    <td class="text-right"><?=number_format((float)$p['valor_venta'], 0, ',', '.')?></td>
                                 </tr>
                                 <?php endforeach; ?>
                                 <?php if (empty($productos)): ?>

@@ -58,7 +58,7 @@
                                         ?>
                                         <span class="label <?=$badge?>"><?=$o['orden_estado']?></span>
                                     </td>
-                                    <td class="text-right"><?=number_format((float)$o['total'], 2)?></td>
+                                    <td class="text-right"><?=number_format((float)$o['total'], 0, ',', '.')?></td>
                                     <td><?=htmlspecialchars($o['usuario_nick'])?></td>
                                     <td class="text-center">
                                         <a class="btn btn-default btn-flat" href="?c=ordencompra&a=Ver&id=<?=$o['orden_id']?>">

@@ -149,6 +149,30 @@ $usuario_sesion = $_SESSION['usuario'] ?? null;
 
                         <li class=" treeview">
                             <a href="#">
+                                <i class="fa fa-money"></i>
+                                <span>Ventas</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class=""><a href="?c=venta"><i class="fa fa-shopping-basket"></i> Ventas</a></li>
+                                <li class=""><a href="?c=cliente"><i class="fa fa-address-book"></i> Clientes</a></li>
+                            </ul>
+                        </li>
+
+                        <li class=" treeview">
+                            <a href="#">
+                                <i class="fa fa-calculator"></i>
+                                <span>Caja</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class=""><a href="?c=caja"><i class="fa fa-unlock-alt"></i> Apertura / Cierre</a></li>
+                                <li class=""><a href="?c=caja&a=Historial"><i class="fa fa-history"></i> Historial</a></li>
+                            </ul>
+                        </li>
+
+                        <li class=" treeview">
+                            <a href="#">
                                 <i class="glyphicon glyphicon-signal"></i> <span>Reportes</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
@@ -157,6 +181,8 @@ $usuario_sesion = $_SESSION['usuario'] ?? null;
                                 <li class=""><a href="?c=reporte&a=ValorInventario"><i class="fa fa-dollar"></i> Valor de Inventario</a></li>
                                 <li class=""><a href="?c=reporte&a=MovimientosPorFecha"><i class="fa fa-calendar"></i> Movimientos por Fecha</a></li>
                                 <li class=""><a href="?c=reporte&a=ProductosMasMovidos"><i class="fa fa-line-chart"></i> Productos más Movidos</a></li>
+                                <li class=""><a href="?c=reporte&a=VentasPorPeriodo"><i class="fa fa-money"></i> Ventas por Período</a></li>
+                                <li class=""><a href="?c=reporte&a=CierresCaja"><i class="fa fa-calculator"></i> Cierres de Caja</a></li>
                             </ul>
                         </li>
 

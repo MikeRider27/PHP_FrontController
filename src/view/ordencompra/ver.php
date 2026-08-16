@@ -75,13 +75,13 @@
                                     <td><?=htmlspecialchars($d['producto_codigo'])?></td>
                                     <td><?=htmlspecialchars($d['producto_nombre'])?></td>
                                     <td class="text-right"><?=$d['detalle_cantidad']?></td>
-                                    <td class="text-right"><?=number_format((float)$d['detalle_precio_costo_unitario'], 2)?></td>
-                                    <td class="text-right"><?=number_format((float)$d['subtotal'], 2)?></td>
+                                    <td class="text-right"><?=number_format((float)$d['detalle_precio_costo_unitario'], 0, ',', '.')?></td>
+                                    <td class="text-right"><?=number_format((float)$d['subtotal'], 0, ',', '.')?></td>
                                 </tr>
                                 <?php endforeach; ?>
                                 <tr>
                                     <th colspan="4" class="text-right">Total</th>
-                                    <th class="text-right"><?=number_format((float)$orden['total'], 2)?></th>
+                                    <th class="text-right"><?=number_format((float)$orden['total'], 0, ',', '.')?></th>
                                 </tr>
                             </table>
                         </div>

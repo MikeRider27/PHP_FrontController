@@ -11,6 +11,9 @@ use App\Controllers\MovimientoController;
 use App\Controllers\ReporteController;
 use App\Controllers\UsuarioController;
 use App\Controllers\OrdenCompraController;
+use App\Controllers\ClienteController;
+use App\Controllers\CajaController;
+use App\Controllers\VentaController;
 
 class Router
 {
@@ -24,6 +27,9 @@ class Router
         'reporte' => ReporteController::class,
         'usuario' => UsuarioController::class,
         'ordencompra' => OrdenCompraController::class,
+        'cliente' => ClienteController::class,
+        'caja' => CajaController::class,
+        'venta' => VentaController::class,
     ];
 
     private const PUBLIC_CONTROLLERS = ['login'];

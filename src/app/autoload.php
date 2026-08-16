@@ -1,5 +1,9 @@
 <?php
 
+if (is_file(__DIR__ . '/../vendor/autoload.php')) {
+    require __DIR__ . '/../vendor/autoload.php';
+}
+
 spl_autoload_register(function (string $class) {
     $prefix = 'App\\';
     if (strncmp($prefix, $class, strlen($prefix)) !== 0) {

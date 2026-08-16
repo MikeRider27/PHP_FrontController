@@ -29,7 +29,7 @@ class Producto extends Model
 
     public function listarActivos(): array
     {
-        $consulta = "SELECT producto_id, producto_codigo, producto_nombre, producto_stock_actual
+        $consulta = "SELECT producto_id, producto_codigo, producto_nombre, producto_stock_actual, producto_precio_venta
                      FROM productos pr
                      INNER JOIN estados e ON e.estado_id = pr.estado_id
                      WHERE e.estado_descripcion = 'Activo'

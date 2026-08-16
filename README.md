@@ -37,6 +37,11 @@ src/
 docker compose up -d --build
 ```
 
+La primera vez que arranca el contenedor, el entrypoint corre `composer install`
+automáticamente contra `src/` (instala [dompdf](https://github.com/dompdf/dompdf),
+usado para generar los PDF de los reportes) — puede tardar unos segundos más que los
+arranques siguientes, que ya encuentran `src/vendor/` instalado.
+
 La app queda en `http://localhost:7040`. El contenedor `controller` se conecta
 a un PostgreSQL **externo** (no lo levanta docker-compose); la conexión se
 configura por variables de entorno, tomadas de un archivo `.env` (no
@@ -61,10 +66,11 @@ la conexión falla explícitamente en vez de usar un valor por defecto.
 
 ## Base de datos
 
-- **Instalación nueva** (base vacía): correr `bd/schema.sql` completo.
+- **Instalación nueva** (base vacía): correr `bd/schema.sql` completo, y luego
+  `bd/migration_003_ventas_caja.sql` (todavía no está incorporada a `schema.sql`).
 - **Base ya existente**: aplicar solo las migraciones incrementales
-  (`bd/migration_002_compras_usuarios.sql`, y las que se agreguen después)
-  sin volver a correr `schema.sql`.
+  (`bd/migration_002_compras_usuarios.sql`, `bd/migration_003_ventas_caja.sql`, y las
+  que se agreguen después) sin volver a correr `schema.sql`.
 - **Datos de prueba** (opcional): `bd/seed_demo.sql` carga categorías,
   proveedores y productos ficticios, útil para desarrollo/demo.
 
@@ -90,9 +96,9 @@ Usuario de prueba (creado por `schema.sql`):
 ## Roles
 
 - **Administrador**: acceso completo (Productos, Categorías, Proveedores,
-  Movimientos de Stock, Órdenes de Compra, Usuarios, Reportes).
-- **Operador**: solo puede ver Productos y registrar/ver Movimientos de Stock;
-  sin acceso a Categorías, Proveedores, Usuarios ni Compras.
+  Movimientos de Stock, Órdenes de Compra, Ventas, Clientes, Caja, Usuarios, Reportes).
+- **Operador**: Productos, Movimientos de Stock, Ventas, Clientes y Caja (es quien
+  opera el mostrador día a día); sin acceso a Categorías, Proveedores, Usuarios ni Compras.
 
 ## Módulos
 
@@ -100,11 +106,19 @@ Usuario de prueba (creado por `schema.sql`):
   (kardex por producto).
 - **Compras**: Órdenes de Compra a proveedor (Pendiente → Recibida/Cancelada);
   al recibir una orden se generan automáticamente las entradas de stock.
+- **Ventas**: registro de ventas a Clientes (opcional; sin cliente queda como
+  "Consumidor Final") con numeración correlativa interna (`VTA-000001`, sin validez
+  fiscal — todavía no hay integración con la facturación electrónica SIFEN). Cada
+  venta requiere una Caja abierta y descuenta stock automáticamente; se puede anular
+  (revierte el stock) indicando un motivo.
+- **Caja**: apertura de turno (monto inicial), registro de ingresos/egresos manuales,
+  y cierre con arqueo (monto contado vs. esperado, con la diferencia calculada). Solo
+  puede haber un turno abierto a la vez.
 - **Usuarios**: alta/edición de usuarios y asignación de rol.
 - **Reportes**: Stock Bajo, Valor de Inventario, Movimientos por Fecha,
-  Productos más Movidos. Cada reporte tiene un botón "Imprimir / PDF" que abre
-  el diálogo de impresión del navegador con una vista limpia (sin menú ni
-  botones) — desde ahí se puede guardar como PDF.
+  Productos más Movidos, Ventas por Período, Cierres de Caja. Cada reporte tiene un
+  botón "Descargar PDF" que genera el archivo en el servidor con dompdf (no depende
+  del diálogo de impresión del navegador).
 
 ## 👨‍💻 Autor
 
