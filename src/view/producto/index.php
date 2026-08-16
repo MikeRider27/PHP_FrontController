@@ -43,6 +43,7 @@
                                     <th>Proveedor</th>
                                     <th class="text-right">Costo</th>
                                     <th class="text-right">Venta</th>
+                                    <th class="text-center">IVA</th>
                                     <th class="text-center">Stock</th>
                                     <th class="text-center">Acciones</th>
                                 </tr>
@@ -54,6 +55,7 @@
                                     <td><?=htmlspecialchars($p['proveedor_razon_social'] ?? '-')?></td>
                                     <td class="text-right"><?=number_format((float)$p['producto_precio_costo'], 0, ',', '.')?></td>
                                     <td class="text-right"><?=number_format((float)$p['producto_precio_venta'], 0, ',', '.')?></td>
+                                    <td class="text-center"><?=$p['producto_iva_tasa'] > 0 ? $p['producto_iva_tasa'] . '%' : 'Exenta'?></td>
                                     <td class="text-center">
                                         <span class="label <?=$p['producto_stock_actual'] <= $p['producto_stock_minimo'] ? 'label-danger' : 'label-success'?>">
                                             <?=$p['producto_stock_actual']?>
@@ -78,7 +80,7 @@
                                 </tr>
                                 <?php endforeach; ?>
                                 <?php if (empty($productos)): ?>
-                                <tr><td colspan="8" class="text-center">Sin resultados</td></tr>
+                                <tr><td colspan="9" class="text-center">Sin resultados</td></tr>
                                 <?php endif; ?>
                             </table>
                         </div>
@@ -143,9 +145,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Stock Mínimo</label>
-                        <input type="number" min="0" name="producto_stock_minimo" id="producto_stock_minimo" class="form-control" required>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label>Stock Mínimo</label>
+                                <input type="number" min="0" name="producto_stock_minimo" id="producto_stock_minimo" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label>IVA</label>
+                                <select name="producto_iva_tasa" id="producto_iva_tasa" class="form-control" required>
+                                    <option value="10">10%</option>
+                                    <option value="5">5%</option>
+                                    <option value="0">Exenta</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <p class="text-muted" id="producto_stock_actual_info"></p>
                 </div>
@@ -168,6 +184,7 @@ function nuevoProducto() {
     document.getElementById('producto_precio_costo').value = '0';
     document.getElementById('producto_precio_venta').value = '0';
     document.getElementById('producto_stock_minimo').value = '0';
+    document.getElementById('producto_iva_tasa').value = '10';
     document.getElementById('producto_stock_actual_info').textContent = 'El stock se administra desde Movimientos de Stock.';
 }
 function editarProducto(p) {
@@ -181,6 +198,7 @@ function editarProducto(p) {
     document.getElementById('producto_precio_costo').value = p.producto_precio_costo;
     document.getElementById('producto_precio_venta').value = p.producto_precio_venta;
     document.getElementById('producto_stock_minimo').value = p.producto_stock_minimo;
+    document.getElementById('producto_iva_tasa').value = p.producto_iva_tasa;
     document.getElementById('producto_stock_actual_info').textContent = 'Stock actual: ' + p.producto_stock_actual + ' (se administra desde Movimientos de Stock).';
 }
 </script>

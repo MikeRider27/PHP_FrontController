@@ -47,12 +47,16 @@ class ProductoController extends Controller
         $precioCosto = floatval($_POST['producto_precio_costo'] ?? 0);
         $precioVenta = floatval($_POST['producto_precio_venta'] ?? 0);
         $stockMinimo = intval($_POST['producto_stock_minimo'] ?? 0);
+        $ivaTasa = intval($_POST['producto_iva_tasa'] ?? 10);
+        if (!in_array($ivaTasa, [0, 5, 10], true)) {
+            $ivaTasa = 10;
+        }
 
         if ($codigo !== '' && $nombre !== '' && $categoriaId > 0) {
             if ($id > 0) {
-                $this->modelo->actualizar($id, $codigo, $nombre, $descripcion, $categoriaId, $proveedorId, $precioCosto, $precioVenta, $stockMinimo);
+                $this->modelo->actualizar($id, $codigo, $nombre, $descripcion, $categoriaId, $proveedorId, $precioCosto, $precioVenta, $stockMinimo, $ivaTasa);
             } else {
-                $this->modelo->insertar($codigo, $nombre, $descripcion, $categoriaId, $proveedorId, $precioCosto, $precioVenta, $stockMinimo);
+                $this->modelo->insertar($codigo, $nombre, $descripcion, $categoriaId, $proveedorId, $precioCosto, $precioVenta, $stockMinimo, $ivaTasa);
             }
         }
 

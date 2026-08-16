@@ -62,7 +62,7 @@ class Venta extends Model
 
         $sentencia = $this->db->prepare(
             "SELECT dv.detalle_venta_id, dv.producto_id, pr.producto_codigo, pr.producto_nombre,
-                    dv.detalle_venta_cantidad, dv.detalle_venta_precio_unitario,
+                    dv.detalle_venta_cantidad, dv.detalle_venta_precio_unitario, dv.detalle_venta_iva_tasa,
                     (dv.detalle_venta_cantidad * dv.detalle_venta_precio_unitario) AS subtotal
              FROM detalle_venta dv
              INNER JOIN productos pr ON pr.producto_id = dv.producto_id
@@ -88,11 +88,12 @@ class Venta extends Model
                 ->execute([$clienteId, $usuarioId, $turnoId, $formaPago]);
             $ventaId = (int) $this->db->lastInsertId('ventas_venta_id_seq');
 
-            $consulta = 'INSERT INTO detalle_venta (venta_id, producto_id, detalle_venta_cantidad, detalle_venta_precio_unitario) VALUES (?, ?, ?, ?)';
+            $consulta = 'INSERT INTO detalle_venta (venta_id, producto_id, detalle_venta_cantidad, detalle_venta_precio_unitario, detalle_venta_iva_tasa)
+                         VALUES (?, ?, ?, ?, (SELECT producto_iva_tasa FROM productos WHERE producto_id = ?))';
             $sentencia = $this->db->prepare($consulta);
             $movimientos = new MovimientoStock();
             foreach ($lineas as $linea) {
-                $sentencia->execute([$ventaId, $linea['producto_id'], $linea['cantidad'], $linea['precio']]);
+                $sentencia->execute([$ventaId, $linea['producto_id'], $linea['cantidad'], $linea['precio'], $linea['producto_id']]);
                 $movimientos->registrar(
                     $linea['producto_id'],
                     'SALIDA',

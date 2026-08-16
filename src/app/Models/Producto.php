@@ -13,7 +13,7 @@ class Producto extends Model
                             pr.categoria_id, c.categoria_nombre,
                             pr.proveedor_id, prov.proveedor_razon_social,
                             pr.producto_precio_costo, pr.producto_precio_venta,
-                            pr.producto_stock_actual, pr.producto_stock_minimo,
+                            pr.producto_stock_actual, pr.producto_stock_minimo, pr.producto_iva_tasa,
                             e.estado_descripcion
                      FROM productos pr
                      INNER JOIN categorias c ON c.categoria_id = pr.categoria_id
@@ -88,14 +88,16 @@ class Producto extends Model
         ?int $proveedorId,
         float $precioCosto,
         float $precioVenta,
-        int $stockMinimo
+        int $stockMinimo,
+        int $ivaTasa
     ): void {
         $consulta = "INSERT INTO productos
                         (producto_codigo, producto_nombre, producto_descripcion, categoria_id, proveedor_id,
-                         producto_precio_costo, producto_precio_venta, producto_stock_actual, producto_stock_minimo, estado_id)
-                     VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?, (SELECT estado_id FROM estados WHERE estado_descripcion = 'Activo'))";
+                         producto_precio_costo, producto_precio_venta, producto_stock_actual, producto_stock_minimo,
+                         producto_iva_tasa, estado_id)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?, ?, (SELECT estado_id FROM estados WHERE estado_descripcion = 'Activo'))";
         $this->db->prepare($consulta)->execute([
-            $codigo, $nombre, $descripcion, $categoriaId, $proveedorId, $precioCosto, $precioVenta, $stockMinimo,
+            $codigo, $nombre, $descripcion, $categoriaId, $proveedorId, $precioCosto, $precioVenta, $stockMinimo, $ivaTasa,
         ]);
     }
 
@@ -108,15 +110,16 @@ class Producto extends Model
         ?int $proveedorId,
         float $precioCosto,
         float $precioVenta,
-        int $stockMinimo
+        int $stockMinimo,
+        int $ivaTasa
     ): void {
         $consulta = "UPDATE productos SET
                         producto_codigo = ?, producto_nombre = ?, producto_descripcion = ?,
                         categoria_id = ?, proveedor_id = ?, producto_precio_costo = ?,
-                        producto_precio_venta = ?, producto_stock_minimo = ?
+                        producto_precio_venta = ?, producto_stock_minimo = ?, producto_iva_tasa = ?
                      WHERE producto_id = ?";
         $this->db->prepare($consulta)->execute([
-            $codigo, $nombre, $descripcion, $categoriaId, $proveedorId, $precioCosto, $precioVenta, $stockMinimo, $id,
+            $codigo, $nombre, $descripcion, $categoriaId, $proveedorId, $precioCosto, $precioVenta, $stockMinimo, $ivaTasa, $id,
         ]);
     }
 
